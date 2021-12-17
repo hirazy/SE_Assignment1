@@ -1,5 +1,8 @@
-package engine;
+package a1_1901040142;
 
+/**
+ * @author hirazy2001
+ */
 public class Match implements Comparable {
 
     Word w;
@@ -18,12 +21,12 @@ public class Match implements Comparable {
         return freq;
     }
 
-    public int getFirstIndex() {
+    public int getFirstIndex()   {
         return firstIndex;
     }
 
     public Word getWord() {
-        return new Word();
+        return w;
     }
 
     @Override
