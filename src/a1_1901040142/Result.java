@@ -1,13 +1,11 @@
 package a1_1901040142;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * @author hirazy2001
- * @overview
+ * @overview stores information about a related a document, a list of matches found in that document
  */
 public class Result implements Comparable {
 
@@ -23,6 +21,7 @@ public class Result implements Comparable {
      */
     public Result(Doc d, List<Match> matches) {
         this.d = d;
+
         this.matches = matches;
         int n = matches.size();
 
@@ -56,7 +55,7 @@ public class Result implements Comparable {
     }
 
     public Doc getDoc() {
-        return null;
+        return d;
     }
 
     /**
@@ -69,9 +68,9 @@ public class Result implements Comparable {
         String sufBody = "</b>";
 
         String title = d.title;
-        String[] titleWords = title.split("");
+        String[] titleWords = title.split(" ");
         String body = d.body;
-        String[] bodyWords = body.split("");
+        String[] bodyWords = body.split(" ");
 
         Set<String> keyWord = new HashSet<>();
         for (int i = 0; i < matches.size(); i++) {
@@ -84,6 +83,7 @@ public class Result implements Comparable {
         html += "<h3>";
         for (int i = 0; i < titleWords.length; i++) {
             Word word = Word.createWord(titleWords[i]);
+            /* word is keyWord */
             if (keyWord.contains(word.textPart.toLowerCase())) {
                 String addText = word.prefix + preTitle + word.textPart + sufTitle + word.suffix;
                 html += addText;
@@ -96,10 +96,11 @@ public class Result implements Comparable {
         }
         html += "</h3>";
 
-        /* New Line */
+        /* Body */
         html += "<p>";
         for (int i = 0; i < bodyWords.length; i++) {
             Word word = Word.createWord(bodyWords[i]);
+            /* word is keyWord */
             if (keyWord.contains(word.textPart.toLowerCase())) {
                 String addText = word.prefix + preBody + word.textPart + sufBody + word.suffix;
                 html += addText;
@@ -125,27 +126,27 @@ public class Result implements Comparable {
          * Match Count (Greater)
          */
         if (n > res.matches.size()) {
-            return 1;
-        } else if (n < res.matches.size()) {
             return -1;
+        } else if (n < res.matches.size()) {
+            return 1;
         }
 
         /**
          * Total Frequency (Greater)
          */
         if (totalFreq > res.totalFreq) {
-            return 1;
-        } else if (totalFreq < res.totalFreq) {
             return -1;
+        } else if (totalFreq < res.totalFreq) {
+            return 1;
         }
 
         /**
          * Average First Index (Lower)
          */
         if (avgFirstIndex < res.avgFirstIndex) {
-            return 1;
-        } else if (avgFirstIndex > res.avgFirstIndex) {
             return -1;
+        } else if (avgFirstIndex > res.avgFirstIndex) {
+            return 1;
         }
         return 0;
     }

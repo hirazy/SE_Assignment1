@@ -99,6 +99,7 @@ public class App {
             boolean[] wtp = (boolean[]) wordTypes[x];
             if (tmp.size() != listSizes[x]) {
                 System.out.println(methods[x] + ": unexpected list length");
+                System.out.println(tmp.size());
             } else {
                 for (int i = 0; i < tmp.size(); i++) {
                     if (!wtxt[i].equals(tmp.get(i).getText()))
@@ -107,8 +108,11 @@ public class App {
                         System.out.println(methods[x] + ": incorrect word prefix '" + tmp.get(i).getPrefix() + "' (expected '" + wpf[i] + "')");
                     if (!wsf[i].equals(tmp.get(i).getSuffix()))
                         System.out.println(methods[x] + ": incorrect word suffix '" + tmp.get(i).getSuffix() + "' (expected '" + wsf[i] + "')");
-                    if (wtp[i] != tmp.get(i).isKeyword())
+                    if (wtp[i] != tmp.get(i).isKeyword()){
+                        System.out.println(tmp.get(i).rawText);
                         System.out.println(methods[x] + ": incorrect isKeyword for '" + tmp.get(i).toString() + "' (expected: " + wtp[i] + ")");
+                    }
+
                 }
             }
         }
@@ -131,6 +135,7 @@ public class App {
         for (int i = 0; i < results.size(); i++) {
             int x = results.get(i).getMatches().size();
             if (x != matchCounts[i]) {
+                System.out.println(i);
                 System.out.println("Engine.search(): incorrect match count (actual: " + x + ", expected: " + matchCounts[i]);
             }
         }

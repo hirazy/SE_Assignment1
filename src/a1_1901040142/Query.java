@@ -5,32 +5,40 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author hirazy2001
+ * @overview represent a user’s search query
  */
 public class Query {
 
     String searchQuery;
     List<Word> keyWords;
 
+    /**
+     * @param searchPhrase
+     * @implSpec Construct Query with user's search phrase
+     */
     public Query(String searchPhrase){
         this.searchQuery = searchPhrase;
         keyWords = new ArrayList<>();
 
-        String[] str = searchPhrase.split("");
+        String[] str = searchPhrase.split(" ");
         for(int i = 0; i < str.length;i++){
-            keyWords.add(Word.createWord(str[i]));
+            if(Word.createWord(str[i]).isKeyword()){
+                keyWords.add(Word.createWord(str[i]));
+            }
         }
     }
 
     /**
      *
      * @param d Document
-     * @return list Match
+     * @return List Match of Query with Doc d
      */
     public List<Match> matchAgainst(Doc d){
         List<Match> matches = new ArrayList<>();
 
-        String[] content = d.content.split("");
+        // Split the space
+        String[] titles = d.title.split(" ");
+        String[] bodies = d.body.split(" ");
 
         for(int i = 0; i < keyWords.size();i++){
             Word word = keyWords.get(i);
@@ -38,11 +46,23 @@ public class Query {
             int firstIndex = -1;
             int freqWord = 0;
 
-            for(int j = 0; j < content.length;j++){
-                // Compare ignoreCase
-                if(word.equals(Word.createWord(content[i]))){
+            // Compare Title
+            for(int j = 0; j < titles.length;j++){
+                // Compare Word
+                if(word.equals(Word.createWord(titles[j]))){
                     if(freqWord == 0){
-                        firstIndex = i;
+                        firstIndex = j;
+                    }
+                    freqWord++;
+                }
+            }
+
+            // Compare Body
+            for(int j = 0; j < bodies.length;j++){
+                // Compare Word
+                if(word.equals(Word.createWord(bodies[j]))){
+                    if(freqWord == 0){
+                        firstIndex = j;
                     }
                     freqWord++;
                 }
