@@ -62,7 +62,7 @@ public class Query {
                 // Compare Word
                 if(word.equals(Word.createWord(bodies[j]))){
                     if(freqWord == 0){
-                        firstIndex = j;
+                        firstIndex = j + titles.length;
                     }
                     freqWord++;
                 }
